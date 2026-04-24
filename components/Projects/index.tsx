@@ -1,0 +1,57 @@
+import data from '@data/projects'
+import {toId} from '@common/helper'
+const Projects = ()=>{
+    return (
+      <div>
+      {data.map((project,index)=>{
+          return(
+          <article key={index} id={toId(project.title)}>
+            <div className="flex items-baseline gap-4 mb-6">
+                <h2 className="text-3xl font-bold uppercase tracking-tighter">
+                    {project.title}
+                </h2>
+                {(project.links.length > 0) && (
+                    project.links.map((link ,index) =>{
+                        return(
+                            <a href={link.link} key={index} className="text-xs border border-neutral-500 px-2 py-1 hover:bg-white hover:text-black transition-colors">{link.name}</a>
+                        )
+                    })
+                )}
+            </div>
+            <div className="grid md:grid-cols-2 gap-12 p-8 mb-12">
+                {
+                    (project.tasks.pending.length > 0) &&(
+                        <div>
+                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-500 underline underline-offset-4">Pending</h3>
+                        <ul className="space-y-3 text-sm list-inside list-square">
+                        {
+                        project.tasks.pending.map((task, index)=>{  
+                            return <li key={index}>{task}</li>;
+                        })
+                        }
+                        </ul>
+                        </div>
+                    )      
+                }
+       
+                {    (project.tasks.completed.length > 0) &&(
+                        <div className="border-t md:border-t-0 md:border-l border-zinc-800 pt-8 md:pt-0 md:pl-8">
+                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-500 underline underline-offset-4">Completed</h3>
+                        <ul className="space-y-3 text-sm list-inside list-square line-through decoration-zinc-600 text-zinc-500">
+                        {
+                        project.tasks.completed.map((task, index)=>{  
+                            return <li key={index}>{task}</li>;
+                        })
+                        }
+                        </ul>
+                        </div>
+                    )      
+                }
+            </div>
+          </article>
+          )
+      })}
+      </div>  
+    );
+}
+export default Projects
