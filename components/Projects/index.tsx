@@ -1,9 +1,9 @@
-import data from '@data/projects'
+import {projects, getTag} from '@data/projects'
 import {toId} from '@common/helper'
 const Projects = ()=>{
     return (
       <div>
-      {data.map((project,index)=>{
+      {projects.map((project,index)=>{
           return(
           <article key={index} id={toId(project.title)}>
             <div className="flex items-baseline gap-4 mb-6">
@@ -47,6 +47,38 @@ const Projects = ()=>{
                         </div>
                     )      
                 }
+            </div>
+            <div className="flex flex-col-reverse relative border-l border-white/20 ml-4 md:ml-0">
+            {project.versions.map((version, index) => {
+                return(
+                <section key={index} className="relative pl-8 pb-12 group">
+                    <div className="absolute -left-[12px] w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-lg"/>
+                    <details className="group/details">
+                        <summary className="list-none cursor-pointer outline-none">
+                            <div className="flex flex-col mb-4">
+                            <div className="flex items-center gap-3">
+                                <span className="text-xl font-bold uppercase tracking-tight">Version {version.version}</span>
+                                {version.tags.map((tag, index)=>{
+                                    let tagInfo = getTag(tag);
+                                    return <span key={index} className={`text-xs px-2 py-0.5 border border-white/30 ${tagInfo.color}`}>{tagInfo.title}</span>
+                                })}
+                            </div>
+                            </div>
+                            <div className="space-y-4 max-w-3xl">
+                                <p className="text-zinc-300 leading-relaxed">{version.description}</p>
+                            </div>
+                        </summary>
+                        <div className="space-y-4 max-w-2xl">
+                        <ul>
+                            {version.points.map((point, index)=>{
+                               return <li key={index} className="text-sm list-disc list-inside text-zinc-400 space-y-1">{point}</li>
+                            })}
+                        </ul>
+                        </div>
+                    </details> 
+                </section>
+                )
+            })}
             </div>
           </article>
           )

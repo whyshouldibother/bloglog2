@@ -1,4 +1,4 @@
-import projects from '@data/projects'
+import {projects} from '@data/projects'
 import {toId} from '@common/helper'
 const Sidebar = ()=>{
     return (
