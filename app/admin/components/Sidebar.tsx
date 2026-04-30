@@ -18,7 +18,8 @@ const Sidebar = () => {
                 })),
             }),
         },
-        {title: 'Tags', path:'tags'}
+        {title: 'Tags', path:'tags'},
+        {title: 'Web', path:'..'}
     ];
     const MenuItem = ({item, ...props}: {item: menuItemType}) => {
         const [isOpen, setIsOpen] = useState(false);
@@ -27,9 +28,11 @@ const Sidebar = () => {
         return (<div  {...props} className="text-xs cursor-pointer">
 
              <Tag onClick={() => {
-                 item.path && router.push(`/admin/${item.path}`)
-                 router.refresh();
-                 setIsOpen(!isOpen)
+                 if(item.path){
+                     router.push(`/admin/${item.path}`);
+                    router.refresh();
+                 }
+                 setIsOpen(!isOpen);
              }} className={`${(isOpen && hasChildren)?'text-sm text-zinc-400 tracking-widest':'text-xs block hover:underline'}`}>
                 {item.title}
             </Tag>

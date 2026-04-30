@@ -1,0 +1,30 @@
+colors
+backgorund: black
+primary text: zinc-400
+secondary text: zinc-600
+pirmary heading: white
+seocndary heading: zinc-200
+primary border: zinc-500
+secondary border: zinc-800
+label: zinc-500
+input: 
+	text:white
+	background: transparent
+	focus-border: white
+	placeholder:zinc-600
+	broder: zinc-600
+
+table:
+	border: zinc-500
+	text: zinc-400
+	header-bg: neutral-900
+	header-text: zinc-500
+
+dialog:
+	border: zinc-500
+	background: neutral-950
+	title: white
+	description: zinc-600
+badge:
+	border-zinc-500
+	

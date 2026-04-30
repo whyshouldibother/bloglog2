@@ -1,5 +1,6 @@
 import {projects, getTag} from '@data/projects'
 import {toId} from '@common/helper'
+import {Badge} from '@components/ui/badge'
 const Projects = ()=>{
     return (
       <div>
@@ -7,13 +8,13 @@ const Projects = ()=>{
           return(
           <article key={index} id={toId(project.title)}>
             <div className="flex items-baseline gap-4 mb-6">
-                <h2 className="text-3xl font-bold uppercase tracking-tighter">
+                <h2 className="text-3xl font-bold uppercase tracking-tighter text-white">
                     {project.title}
                 </h2>
                 {(project.links.length > 0) && (
                     project.links.map((link ,index) =>{
                         return(
-                            <a href={link.link} key={index} className="text-xs border border-neutral-500 px-2 py-1 hover:bg-white hover:text-black transition-colors">{link.name}</a>
+                            <a href={link.link} key={index} className="text-xs border border-zinc-500 px-2 py-1 hover:bg-white hover:text-black transition-colors">{link.name}</a>
                         )
                     })
                 )}
@@ -22,7 +23,7 @@ const Projects = ()=>{
                 {
                     (project.tasks.pending.length > 0) &&(
                         <div>
-                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-500 underline underline-offset-4">Pending</h3>
+                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-200 underline underline-offset-4">Pending</h3>
                         <ul className="space-y-3 text-sm list-inside list-square">
                         {
                         project.tasks.pending.map((task, index)=>{  
@@ -36,8 +37,8 @@ const Projects = ()=>{
        
                 {    (project.tasks.completed.length > 0) &&(
                         <div className="border-t md:border-t-0 md:border-l border-zinc-800 pt-8 md:pt-0 md:pl-8">
-                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-500 underline underline-offset-4">Completed</h3>
-                        <ul className="space-y-3 text-sm list-inside list-square line-through decoration-zinc-600 text-zinc-500">
+                        <h3 className="text-sm font-bold uppercase mb-4 text-zinc-200 underline underline-offset-4">Completed</h3>
+                        <ul className="space-y-3 text-sm list-inside list-square line-through decoration-zinc-600 text-zinc-600">
                         {
                         project.tasks.completed.map((task, index)=>{  
                             return <li key={index}>{task}</li>;
@@ -57,10 +58,10 @@ const Projects = ()=>{
                         <summary className="list-none cursor-pointer outline-none">
                             <div className="flex flex-col mb-4">
                             <div className="flex items-center gap-3">
-                                <span className="text-xl font-bold uppercase tracking-tight">Version {version.version}</span>
+                                <span className="text-xl font-bold uppercase tracking-tight text-zinc-200">Version {version.version}</span>
                                 {version.tags.map((tag, index)=>{
                                     let tagInfo = getTag(tag);
-                                    return <span key={index} className={`text-xs px-2 py-0.5 border border-white/30 ${tagInfo.color}`}>{tagInfo.title}</span>
+                                    return <Badge key={index} className={`border rounded-none border-zinc-500 background-mist-950 ${tagInfo.color}`}>{tagInfo.title}</Badge>
                                 })}
                             </div>
                             </div>
