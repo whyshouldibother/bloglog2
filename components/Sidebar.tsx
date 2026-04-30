@@ -7,7 +7,7 @@ const Sidebar = ()=>{
                 ESP32 LOG
             </h1>
             <div className="mb-10">
-                <h2 className="text-s text-zinc-400 tracking-widest">Projects</h2>
+                <h2 className="text-sm text-zinc-400 tracking-widest">Projects</h2>
                 {(projects.length > 0) && (
                     <ul className="space-y-2">
                     {projects.map((project, index)=>(

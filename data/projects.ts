@@ -26,7 +26,7 @@ type tagType={
     color: string; 
     title: string;
 }
-const tags:Array<tagType> =[
+export const tags:Array<tagType> =[
     {id: "001", color:"text-blue-500", title:"Initial Release"},
     {id: "002", color:"text-yellow-500", title:"On Hold"},
     {id: "003", color:"text-red-500", title:"Dropped"},

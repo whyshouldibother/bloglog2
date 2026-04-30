@@ -23,7 +23,8 @@
       "@/*": ["./*"],
       "@components/*":["components/*"],
       "@data/*":["data/*"],
-      "@common/*":["common/*"]
+      "@common/*":["common/*"],
+      "@admin/*":["app/admin/*"]
     }
   },
   "include": [
