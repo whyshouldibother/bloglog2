@@ -1,27 +1,43 @@
 import {projects} from '@data/projects'
 import {toId} from '@common/helper'
-const Sidebar = ()=>{
+import {Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton} from '@components/ui/sidebar'
+import {cn} from '@/lib/utils'
+const AppSidebar = ({className}: {className?: string}) => {
     return (
-        <nav className="border-zinc-500 border-r h-full overflow-auto pt-5 p-8">
-            <h1 className="text-xl uppercase font-bold mb-8 text-white">
-                ESP32 LOG
-            </h1>
-            <div className="mb-10">
-                <h2 className="text-sm text-zinc-200 tracking-widest">Projects</h2>
-                {(projects.length > 0) && (
-                    <ul className="space-y-2">
-                    {projects.map((project, index)=>(
-                        <li key={index}>
-                            <a href={`#${toId(project.title)}`} className="hover:underline block text-xs">{project.title}</a>
-                        </li>
-                    ))}
-                    </ul>
-                )}
-            </div>
-            <div className="text-zinc-600 text-xs">
-                <p>Building Unessary Systems</p>
-            </div>
-        </nav>
+        <>
+            <Sidebar className={cn("border-zinc-500 border-r pl-4 pr-2 h-full overflow-hidden pt-4 pb-2 [&_[data-sidebar='sidebar']]:!bg-transparent", className)} >
+                <SidebarHeader className="p-0 ">
+
+                    <h1 className="text-3xl uppercase font-bold mb-2 text-white">
+                        ESP32 LOG
+                    </h1>
+                </SidebarHeader>
+                <SidebarContent className="">
+                    <SidebarGroup className="p-0 ">
+
+                        <SidebarGroupLabel className="text-sm text-zinc-200 tracking-widest px-0 ">Projects</SidebarGroupLabel>
+
+                        {(projects.length > 0) && (
+                            <SidebarGroupContent className="">
+                                <SidebarMenu className="p-0 ">
+
+                                    {projects.map((project, index) => (
+                                        <SidebarMenuItem key={index}>
+                                            <SidebarMenuButton className="bg-transparent hover:bg-transparent active:bg-transparent shadow-none px-0 py-0 text-xs text-zinc-400 transition-none hover:text-zinc-400 hover:underline rounded-none h-fit">
+                                                <a href={`#${toId(project.title)}`}>{project.title}</a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    ))}
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        )}
+                    </SidebarGroup>
+                </SidebarContent>
+                <SidebarFooter className="text-zinc-600 text-xs whitespace-normal p-0">
+                    <p>Building Unessary Systems</p>
+                </SidebarFooter>
+            </Sidebar>
+        </>
     )
 };
-export default Sidebar;
+export default AppSidebar;

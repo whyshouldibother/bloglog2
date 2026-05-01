@@ -2,8 +2,10 @@ import Layout from '@/app/(web)/layout'
 import App from '@/app/(web)/page'
 export default function Admin() {
     return (
-        <div className="h-screen w-full flex items-center justify-center md:pt-5 md:p-8">
-            <div className="border border-zinc-500 scale-[0.80]"><Layout children={<App />} /></div>
+        <div className="h-full w-full p-1 flex items-center justify-center">
+        <div className="scale-[0.80] overflow-hidden">
+            <Layout children={<App />} className="border"/>
+        </div>
         </div>
     );
 }

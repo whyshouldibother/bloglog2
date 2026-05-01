@@ -27,4 +27,5 @@ dialog:
 	description: zinc-600
 badge:
 	border-zinc-500
+	background-mist-950
 	

@@ -1,25 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-import {IBM_Plex_Mono} from "next/font/google";
 import { cn } from "@/lib/utils";
+import {Inconsolata} from 'next/font/google';
+const inconsolata = Inconsolata({ subsets: ['latin'] })
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const ibmPlexMono = IBM_Plex_Mono({
-    subsets: ["latin"],
-    weight: ["400", "500", "700"],
-    variable: "--font-ibm-plex-mono", });
-
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "ESP32 LOG",
@@ -34,7 +18,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, ibmPlexMono.variable, "font-sans", inter.variable)}
+      className={cn("h-full", "antialiased", inconsolata.className)}
     >
         <body>
             {children}

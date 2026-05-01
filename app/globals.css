@@ -3,21 +3,27 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-html, body{
+
+html,
+body {
     background: black;
-    color: #a1a1aa	;
+    color: #a1a1aa;
 }
-@layer base{
-    html{
-        font-size: 150%;
-    @apply font-sans;
+
+@layer base {
+    html {
+        font-size: 175%;
+        @apply font-sans;
     }
-  * {
-    @apply border-border outline-ring/50;
+
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
+
 }
 
 @theme inline {

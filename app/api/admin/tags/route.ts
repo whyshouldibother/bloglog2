@@ -40,7 +40,7 @@ export async function PUT(request:Request){
             values.push(color);
         }
         if(priorityOrder !== undefined){
-            fields.push(`priorityOrder=$${i++}`);
+            fields.push(`priorityorder=$${i++}`);
             values.push(priorityOrder);
         }
         if(fields.length === 0) return Response.json({error:'No fields to update'}, {status:400});
@@ -62,5 +62,6 @@ export async function DELETE(request: Request){
         if(result.rowCount === 0) return Response.json({error:'Tag not found'}, {status:404});
         return Response.json(result.rows[0]);
     }catch(error){
+        console.log(0)
     }
 }

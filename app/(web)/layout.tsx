@@ -1,13 +1,16 @@
-import Sidebar from '@components/Sidebar'
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>){
-    return(
-        <div className={`h-screen flex flex-row w-full overflow-hidden`}>
-            <div className="sm:1/4 lg:w-2/12 h-fill">
-                <Sidebar/>
-            </div>
-            <div className="min-h-full lg:w-10/12 sm:3/4 overflow-y-auto scroll-smooth">
+import AppSidebar from '@components/Sidebar'
+import {SidebarProvider, SidebarTrigger, SidebarInset} from '@components/ui/sidebar'
+import {cn} from '@/lib/utils'
+export default function RootLayout({children, className}: Readonly<{children: React.ReactNode; className?: string}>) {
+    return (
+        <SidebarProvider className={cn("bg-black overflow-hidden", className)} >
+            <AppSidebar/>
+            <SidebarInset className="bg-transparent">
+            <SidebarTrigger className="rounded-none"/>
+            <main className="overflow-y-auto scroll-smooth h-screen">
                 {children}
-            </div>
-      </div>
+            </main>
+            </SidebarInset>
+        </SidebarProvider>
     )
 }
