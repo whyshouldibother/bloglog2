@@ -84,14 +84,14 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
                     <DialogContent className="bg-neutral-950 border-zinc-500 rounded-none p-4 text-white overflow-y-auto max-h-[90vh] [&>button]:rounded-none [&>button]:cursor-pointer">
                         <DialogHeader>
                             <DialogTitle className="text-white">
-                                New Project
+                                {editingProject ? "Edit" : "New"} Project
                             </DialogTitle>
                             <DialogDescription className="text-zinc-600">
                                 Add a new project
                             </DialogDescription>
                         </DialogHeader>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <FieldGroup>
+                            <FieldGroup className="mb-2">
                                 <Field>
                                     <Label className="text-zinc-500">ID</Label>
                                     <Input disabled {...register("id")} className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0 " />
@@ -115,11 +115,11 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
 
                             </FieldGroup>
                             <DialogFooter>
-                                {editingProject && <Button className="w-fit !rounded-none bg-white text-black hover:bg-red-500 hover:text-white" type="button" onClick={() => {deleteProject(editingProject.id); resetEdit(); setOpen(false)}}>Delete</Button>}
+                                {editingProject && <Button className="w-fit !rounded-none bg-white text-black hover:bg-red-500 hover:text-white cursor-pointer" type="button" onClick={() => {deleteProject(editingProject.id); resetEdit(); setOpen(false)}}>Delete</Button>}
                                 <DialogClose>
-                                    <Button className="w-fit !rounded-none bg-white text-black hover:bg-red-500 hover:text-white" type="reset" onClick={() => {setOpen(false); resetEdit();}}>Cancel</Button>
+                                    <Button className="w-fit !rounded-none bg-white text-black hover:bg-red-500 hover:text-white cursor-pointer" type="reset" onClick={() => {setOpen(false); resetEdit();}}>Cancel</Button>
                                 </DialogClose>
-                                <Button className="w-fit !rounded-none bg-white text-black hover:bg-green-500 hover:text-white" type="submit">Save</Button>
+                                <Button className="w-fit !rounded-none bg-white text-black hover:bg-green-500 hover:text-white cursor-pointer" type="submit">Save</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -145,7 +145,7 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
                     <TableBody className="overflow-y-auto">
                         {projects.map((project) => {
                             return (
-                                <TableRow key={project.id}  className="hover:!bg-transparent !border-0 has-aria-expanded:!bg-transparent data-[state=selected]:!bg-transparent">
+                                <TableRow key={project.id} className="hover:!bg-transparent !border-0 has-aria-expanded:!bg-transparent data-[state=selected]:!bg-transparent">
                                     <TableCell className="py-2 px-2 text-sm align-middle text-zinc-400">{project.id}</TableCell>
                                     <TableCell className="py-2 px-2 text-sm align-middle text-zinc-400 break-words whitespace-normal">{project.title}</TableCell>
                                     <TableCell className="py-2 px-2 text-sm align-middle text-zinc-400 break-words whitespace-normal">{project.description}</TableCell>

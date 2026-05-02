@@ -5,8 +5,8 @@ import {cn} from '@/lib/utils'
 const AppSidebar = ({className}: {className?: string}) => {
     return (
         <>
-            <Sidebar className={cn("border-zinc-500 border-r pl-4 pr-2 h-full overflow-hidden pt-4 pb-2 [&_[data-sidebar='sidebar']]:!bg-transparent", className)} >
-                <SidebarHeader className="p-0 ">
+            <Sidebar className={cn("border-zinc-500 border-r pl-4 pr-2 h-full !bg-black overflow-hidden pt-4 pb-2 [&_[data-sidebar='sidebar']]:!bg-black", className)} >
+            <SidebarHeader className="p-0 ">
 
                     <h1 className="text-3xl uppercase font-bold mb-2 text-white">
                         ESP32 LOG

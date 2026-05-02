@@ -3,7 +3,7 @@ import {SidebarProvider, SidebarTrigger, SidebarInset} from '@components/ui/side
 import {cn} from '@/lib/utils'
 export default function RootLayout({children, className}: Readonly<{children: React.ReactNode; className?: string}>) {
     return (
-        <SidebarProvider className={cn("bg-black overflow-hidden", className)} >
+        <SidebarProvider className={cn("bg-black overflow-hidden", className)} style={{"--sidebar-background":"0 0% 0%"} as React.CSSProperties} >
             <AppSidebar/>
             <SidebarInset className="bg-transparent">
             <SidebarTrigger className="rounded-none"/>
