@@ -1,4 +1,3 @@
-"use server"
 import {getProjectView} from '@/actions/projects'
 import {projectViewType} from '@/types/projects'
 import {Card, CardTitle, CardHeader, CardContent} from '@components/ui/card'
