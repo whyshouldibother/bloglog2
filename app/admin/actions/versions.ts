@@ -4,7 +4,7 @@ import {revalidatePath} from "next/cache";
 import {projectVersionQuery, projectNoteQuery} from '@/types/projects'
 
 export async function createVersion(data: projectVersionQuery) {
-    await pool.query("insert into versions(versionid, creation, projectid, description) values(string_to_array($1,'.')::int[], $2, $3, $4)", [data.versionid, data.creation, data.projectid, data.description]);
+    await pool.query("insert into versions(versionid, creation, projectid, description) values(string_to_array($1,'.')::int[], $2, $3, $4)", [data.versionid, data.creation || null, data.projectid, data.description]);
     revalidatePath("/admin/projects");
 }
 
