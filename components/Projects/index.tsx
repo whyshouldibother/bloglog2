@@ -1,18 +1,17 @@
 "use server"
-import {getTag} from '@data/projects'
-import {toId} from '@common/helper'
-import {Badge} from '@components/ui/badge'
 import {getProjectView} from '@/actions/projects'
 import {projectViewType} from '@/types/projects'
+import {Card, CardTitle, CardHeader, CardContent} from '@components/ui/card'
+import {Badge} from '@components/ui/badge'
+import {format} from "date-fns"
+import {toId} from '@common/helper'
 const Projects = async () => {
     const projects = await getProjectView();
-    console.log(projects);
-    console.log(projects[0].links)
     return (
         <div>
             {projects.map((project: projectViewType) => {
                 return (
-                    <article key={project.id}>
+                    <article key={project.id} id={toId(project.title)}>
                         <div className="mb-4">
                             <div className="flex items-center gap-4 mb-2">
                                 <h2 className="text-4xl font-bold uppercase tracking-tighter text-white">{project.title}</h2>
@@ -26,96 +25,77 @@ const Projects = async () => {
                                         ))
                                 }
                             </div>
-                            <p className="text-zinc-600">
+                            <p className="text-zinc-400 text-sm leading-relaxed font-virgil">
                                 {project.description}
                             </p>
+
+
+                            <div className="flex flex-row gap-2">
+                                <Card className="rounded-none bg-black w-1/2">
+                                    <CardHeader className="text-zinc-600 p-0 text-xs uppercase underline underline-offset-8 tracking-[0.2em]"><CardTitle>Pending</CardTitle></CardHeader>
+                                    <CardContent className="text-zinc-400 px-2">
+                                        <ul className="space-y-2 list-square p-0 text-sm font-virgil">
+
+                                            {project.pendingTodos.length > 0 ? (
+                                                project.pendingTodos.map((task) => (<li key={task.id}>{task.todo}</li>))
+                                            ) : "No pending tasks"}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                                <Card className="rounded-none bg-black w-1/2">
+                                    <CardHeader className="text-zinc-600 p-0 text-xs uppercase underline underline-offset-8 tracking-[0.2em]"><CardTitle>Completed</CardTitle></CardHeader>
+                                    <CardContent className="text-zinc-600 px-2">
+                                        <ul className="space-y-2 list-none p-o line-through font-virgil">
+
+                                            {project.completedTodos.length > 0 ? (
+                                                project.completedTodos.map((task) => (<li key={task.id}>{task.todo}</li>))
+                                            ) : "Nothing done yet"}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                            <div className="flex flex-col-reverse gap-2 border-l border-zinc-800 pl-4 relative">
+
+                                {project.versions.map((version) => (
+                                    <section key={version.versionid} className="group relative mb-2">
+                                        <div className="absolute -left-6 top-1 w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-full z-10" />
+                                        <details className="group/details">
+                                            <summary className="list-none cursor-pointer outline-none">
+                                                <div className="flex flex-col mb-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <h3 className="text-xl font-bold uppercase tracking-tight text-white">
+                                                            Version: {version.versionid}
+                                                        </h3>
+                                                        {version.tags.map((tag, index) => (
+                                                            <Badge key={index} className="text-[0.625rem] px-2 py-0.5 border border-zinc-800 bg-black !rounded-none" style={{color: tag.color}}>
+                                                                {tag.title}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+                                                    {
+                                                        version.creation && (
+                                                            <time className="text-[0.625rem] text-zinc-600 uppercase font-thin tracking-widest mt-1">
+                                                                {format(new Date(version.creation), "do MMMM yyyy")}
+                                                            </time>
+                                                        )
+                                                    }
+                                                </div>
+                                                <p className="text-zinc-400 leading-snug text-sm font-virgil">{version.description}</p>
+                                            </summary>
+                                            <ul className="list-disc list-inside mt-2 font-virgil">
+                                                {version.notes.map(note => (
+                                                    <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
+                                                ))}
+                                            </ul>
+                                        </details>
+                                    </section>
+                                ))}
+                            </div>
                         </div>
                     </article>
                 )
             })}
-            {
-                // {projects.map((project,index)=>{
-                //     return(
-                //     <article key={index} id={toId(project.title)}>
-                //       <div className="flex items-baseline gap-4 mb-6">
-                //           <h2 className="text-3xl font-bold uppercase tracking-tighter text-white">
-                //               {project.title}
-                //           </h2>
-                //           {(project.links.length > 0) && (
-                //               project.links.map((link ,index) =>{
-                //                   return(
-                //                       <a href={link.link} key={index} className="text-xs border border-zinc-500 px-2 py-1 hover:bg-white hover:text-black transition-colors">{link.name}</a>
-                //                   )
-                //               })
-                //           )}
-                //       </div>
-                //       <div className="grid md:grid-cols-2 gap-12 p-8 mb-12">
-                //           {
-                //               (project.tasks.pending.length > 0) &&(
-                //                   <div>
-                //                   <h3 className="text-sm font-bold uppercase mb-4 text-zinc-200 underline underline-offset-4">Pending</h3>
-                //                   <ul className="space-y-3 text-sm list-inside list-square">
-                //                   {
-                //                   project.tasks.pending.map((task, index)=>{  
-                //                       return <li key={index}>{task}</li>;
-                //                   })
-                //                   }
-                //                   </ul>
-                //                   </div>
-                //               )      
-                //           }
-                //
-                //           {    (project.tasks.completed.length > 0) &&(
-                //                   <div className="border-t md:border-t-0 md:border-l border-zinc-800 pt-8 md:pt-0 md:pl-8">
-                //                   <h3 className="text-sm font-bold uppercase mb-4 text-zinc-200 underline underline-offset-4">Completed</h3>
-                //                   <ul className="space-y-3 text-sm list-inside list-square line-through decoration-zinc-600 text-zinc-600">
-                //                   {
-                //                   project.tasks.completed.map((task, index)=>{  
-                //                       return <li key={index}>{task}</li>;
-                //                   })
-                //                   }
-                //                   </ul>
-                //                   </div>
-                //               )      
-                //           }
-                //       </div>
-                //       <div className="flex flex-col-reverse relative border-l border-white/20 ml-4 md:ml-0">
-                //       {project.versions.map((version, index) => {
-                //           return(
-                //           <section key={index} className="relative pl-8 pb-12 group">
-                //               <div className="absolute -left-[12px] w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-lg"/>
-                //               <details className="group/details">
-                //                   <summary className="list-none cursor-pointer outline-none">
-                //                       <div className="flex flex-col mb-4">
-                //                       <div className="flex items-center gap-3">
-                //                           <span className="text-xl font-bold uppercase tracking-tight text-zinc-200">Version {version.version}</span>
-                //                           {version.tags.map((tag, index)=>{
-                //                               let tagInfo = getTag(tag);
-                //                               return <Badge key={index} className={`border rounded-none border-zinc-500 background-mist-950 ${tagInfo.color}`}>{tagInfo.title}</Badge>
-                //                           })}
-                //                       </div>
-                //                       </div>
-                //                       <div className="space-y-4 max-w-3xl">
-                //                           <p className="text-zinc-300 leading-relaxed">{version.description}</p>
-                //                       </div>
-                //                   </summary>
-                //                   <div className="space-y-4 max-w-2xl">
-                //                   <ul>
-                //                       {version.points.map((point, index)=>{
-                //                          return <li key={index} className="text-sm list-disc list-inside text-zinc-400 space-y-1">{point}</li>
-                //                       })}
-                //                   </ul>
-                //                   </div>
-                //               </details> 
-                //           </section>
-                //           )
-                //       })}
-                //       </div>
-                //     </article>
-                //     )
-                // })}
-            }
-        </div>
+        </div >
     );
 }
 export default Projects

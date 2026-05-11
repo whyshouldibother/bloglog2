@@ -23,7 +23,7 @@ const AppSidebar = ({className}: {className?: string}) => {
 
                                     {projects.map((project, index) => (
                                         <SidebarMenuItem key={index}>
-                                            <SidebarMenuButton className="bg-transparent hover:bg-transparent active:bg-transparent shadow-none px-0 py-0 text-xs text-zinc-400 transition-none hover:text-zinc-400 hover:underline rounded-none h-fit">
+                                            <SidebarMenuButton className="bg-transparent hover:bg-transparent active:bg-transparent shadow-none px-0 py-0 text-xs text-zinc-400 transition-none hover:text-zinc-400 hover:underline rounded-none h-fit font-virgil">
                                                 <a href={`#${toId(project.title)}`}>{project.title}</a>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
@@ -33,7 +33,7 @@ const AppSidebar = ({className}: {className?: string}) => {
                         )}
                     </SidebarGroup>
                 </SidebarContent>
-                <SidebarFooter className="text-zinc-600 text-xs whitespace-normal p-0">
+                <SidebarFooter className="text-zinc-600 text-xs whitespace-normal p-0 font-virgil">
                     <p>Building Unessary Systems</p>
                 </SidebarFooter>
             </Sidebar>

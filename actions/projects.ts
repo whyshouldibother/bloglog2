@@ -1,6 +1,59 @@
 import pool from '@/lib/db'
 import {projectViewType} from '@/types/projects';
-export async function getProjectView():Promise<projectViewType[]>{
-    const result = await pool.query<projectViewType>(`select p.id, p.title, p.description, coalesce(json_agg(json_build_object('title', l.title, 'url', l.url)) filter(where l.id is not null), '[]') as links from projects p left join links l on l.projectid = p.id group by p.id order by p."lastUpdate"`);
+export async function getProjectView() {
+    const result = await pool.query<projectViewType>(`
+    SELECT
+      p.id,
+      p.title,
+      p.description,
+
+      COALESCE(l.links, '[]') AS links,
+      COALESCE(t.completed, '[]') AS "completedTodos",
+      COALESCE(t.pending, '[]') AS "pendingTodos",
+        COALESCE (v.versions, '[]') as versions
+    FROM projects p
+    LEFT JOIN LATERAL (
+      SELECT json_agg(
+        jsonb_build_object(
+          'title', l.title,
+          'url', l.url
+        )
+      ) AS links
+      FROM links l
+      WHERE l.projectid = p.id
+    ) l ON true
+  left join lateral(
+            select json_agg(jsonb_build_object('id', v.id, 'versionid', array_to_string(v.versionid, '.'), 'creation', v.creation, 'description',v.description, 'notes', coalesce((select json_agg(json_build_object('id', n.id, 'note', n.note)) from versionnotes n where n.versionid = v.id), '[]'::json), 'tags',coalesce((select json_agg(jsonb_build_object('title', t.title, 'color', t.color) order by t.\"priorityOrder\") from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id ), '[]'::json)) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
+
+    LEFT JOIN LATERAL (
+      SELECT
+        COALESCE(
+          json_agg(
+            jsonb_build_object(
+              'id', t.id,
+              'todo', t.todo,
+              'status', t.status
+            )
+          ) FILTER (WHERE t.status = true),
+          '[]'
+        ) AS completed,
+
+        COALESCE(
+          json_agg(
+            jsonb_build_object(
+              'id', t.id,
+              'todo', t.todo,
+              'status', t.status
+            )
+          ) FILTER (WHERE t.status = false),
+          '[]'
+        ) AS pending
+            FROM todolist t
+      WHERE t.projectid = p.id
+    ) t ON true
+
+    ORDER BY p."lastUpdate" DESC
+  `);
+
     return result.rows;
 }

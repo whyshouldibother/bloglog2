@@ -343,7 +343,7 @@ export default function Editor({project}: {project: projectViewType}) {
                     </Dialog>
                     <div className="flex flex-col-reverse gap-2">
                         {project.versions.map((version) => (
-                            <Card className="rounded-none bg-black border border-zinc-800" size="sm">
+                            <Card key={version.id} className="rounded-none bg-black border border-zinc-800" size="sm">
                                 <Dialog open={notesEditorOpen} onOpenChange={(open) => setNotesEditorOpen(open)}>
                                     <DialogContent className="bg-neutral-950 rounded-none p-4 text-white overflow-y-auto max-h-[90vh] [&>button]:rounded-none [&>button]:cursor-pointer">
                                         <DialogHeader>
