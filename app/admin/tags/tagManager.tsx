@@ -6,15 +6,15 @@ import {Dialog, DialogClose, DialogDescription, DialogTitle, DialogTrigger, Dial
 import {Field, FieldGroup} from '@components/ui/field'
 import {Label} from '@components/ui/label'
 import {Input} from '@components/ui/input'
-import {useForm} from 'react-hook-form'
+import {useForm, useWatch} from 'react-hook-form'
 import {Badge} from '@components/ui/badge'
 import {DropdownMenu, DropdownMenuTrigger,DropdownMenuContent,DropdownMenuGroup, DropdownMenuItem} from '@components/ui/dropdown-menu'
 import {createTag, deleteTag, updateTag} from '@admin/actions/tags'
 import {useState} from 'react'
 export default function TagManager({tags}: {tags: Array<tagsType>}) {
-    const {register, watch, setValue, handleSubmit, setError, reset, formState: {errors, isSubmitting}} = useForm<tagsType>();
-    const previewBadgeTitle = watch("title")
-    const previewBadgeColor = watch("color")
+    const {register, control, setValue, handleSubmit, setError, reset, formState: {errors, isSubmitting}} = useForm<tagsType>();
+    const previewBadgeTitle = useWatch({control, name:"title",})
+    const previewBadgeColor = useWatch({control, name:"color"})
     const [open, setOpen] = useState(false);
     const [editingTag, setEditingTag] = useState<tagsType | null>(null);
     function resetEdit() {
@@ -98,7 +98,7 @@ export default function TagManager({tags}: {tags: Array<tagsType>}) {
                             </FieldGroup>
                             <div className="flex flex-col gap-2">
                                 <h2 className="text-zinc-200 text-sm">Preview</h2>
-                                <Badge className="border rounded-none border-zinc-500 background-mist-950" style={{color: previewBadgeColor}}>{previewBadgeTitle || "Preview"}</Badge>
+                                <Badge className="border rounded-none border-zinc-500 bg-mist-950" style={{color: previewBadgeColor}}>{previewBadgeTitle || "Preview"}</Badge>
                             </div>
                             <DialogFooter>
                                 {editingTag && <Button className="w-fit !rounded-none bg-white text-black hover:bg-red-500 hover:text-white" type="button" onClick={() => {deleteTag(editingTag.id); resetEdit(); setOpen(false)}}>Delete</Button>}

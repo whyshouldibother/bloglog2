@@ -3,7 +3,7 @@ import {Button} from '@components/ui/button'
 import {useForm} from 'react-hook-form'
 import {signIn} from 'next-auth/react'
 import {useRouter} from 'next/navigation'
-import {FieldGroup, Field} from '@components/ui/field'
+import {FieldGroup, Field, FieldLegend} from '@components/ui/field'
 import {Label} from '@components/ui/label'
 import {Input} from '@components/ui/input'
 type LoginForm = {
@@ -29,6 +29,7 @@ export default function Login() {
         <div className="h-screen w-screen flex items-center justify-center">
             <form className="w-1/2 min-h-[50%] border border-zinc-500 flex flex-col items-center justify-center gap-4 p-2" onSubmit={handleSubmit(onSubmit)}>
                 <FieldGroup>
+                    <FieldLegend>Login</FieldLegend>
                     <Field>
                         <Label className="text-zinc-500">Username</Label>
                         <Input {...register("username", {required: "Username is required"})} className="bg-transparent border border-zinc-600 rounded-none focus:border-white text-white placeholder:text-zinc-600" disabled={isSubmitting} placeholder="Username" />
@@ -42,7 +43,7 @@ export default function Login() {
 
                     </Field>
                     <Field>
-                        <Button className="w-fit !rounded-none bg-black text-white hover:bg-white hover:text-black" disabled={isSubmitting} type="submit">{isSubmitting ? "Logging In" : "Log In"}</Button>
+                        <Button className="w-fit !rounded-none bg-black text-white hover:bg-white hover:text-black cursor-pointer" disabled={isSubmitting} type="submit">{isSubmitting ? "Logging In" : "Log In"}</Button>
                     </Field>
                 </FieldGroup>
             </form>

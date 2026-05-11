@@ -34,7 +34,7 @@ const SidebarSubGroupItem = ({items}: {items: menuItemType}) => {
                 {(items.subMenu && items.subMenu.length > 0) ? (
                     <SidebarMenuSub className="p-y-0 ml-0 border-l-zinc-800">
                         {items.subMenu.map((item, index) =>
-                        (item.subMenu ? (<SidebarSubGroupItem items={item} />) : (
+                        (item.subMenu ? (<SidebarSubGroupItem items={item} key={index}/>) : (
                             <SidebarMenuSubItem key={index}>
                                 <SidebarMenuSubButton className="bg-transparent hover:bg-transparent active:bg-transparent shadow-none px-0 py-0 text-xs text-zinc-400 transition-none hover:text-zinc-400 hover:underline rounded-none h-fit cursor-pointer" onClick={()=>handleMenuAction(item.action)}>{item.label}</SidebarMenuSubButton>
                             </SidebarMenuSubItem>
@@ -65,7 +65,7 @@ const SidebarGroupItem = ({menuItems}: {menuItems: SidebarGroupItemType}) => {
                     {menuItems.items.map((item, index) =>
                     (
                         item.subMenu ? (<SidebarSubGroupItem key={index} items={item} />) : (
-                            <SidebarMenuItem>
+                            <SidebarMenuItem key={index}>
                                 <SidebarMenuButton className="bg-transparent hover:bg-transparent active:bg-transparent shadow-none px-0 py-0 text-xs text-zinc-400 transition-none hover:text-zinc-400 hover:underline rounded-none h-fit cursor-pointer" onClick={() => handleMenuAction(item.action)}>
                                     {item.label}
                                 </SidebarMenuButton>
@@ -78,7 +78,6 @@ const SidebarGroupItem = ({menuItems}: {menuItems: SidebarGroupItemType}) => {
     )
 };
 const AdminSidebar = ({projectList}: {projectList: Array<projectListType>}) => {
-    console.log(projectList);
     return (
         <Sidebar className="border-zinc-500 border-r h-full overflow-hidden pt-4 pr-2 pl-4  pb-2 [&_[data-sidebar='sidebar']]:!bg-transparent">
             <SidebarHeader className="p-0">

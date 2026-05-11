@@ -11,10 +11,12 @@ import {Textarea} from '@/components/ui/textarea'
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@components/ui/table';
 import {createProject, updateProject, deleteProject} from '@admin/actions/projects'
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem} from '@components/ui/dropdown-menu'
+import {useRouter} from 'next/navigation'
 export default function ProjectManger({projects}: {projects: Array<projectTable>}) {
     const [open, setOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<projectTable | null>(null);
     const today = new Date();
+    const router = useRouter();
     const formatDate = (date?: string | null | Date) => {
         if (!date) return "";
         const d = new Date(date);
@@ -30,7 +32,6 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
             lastUpdate: formatDate(today),
         }
     });
-    console.log(watch())
     function resetEdit() {
         reset({title: "", description: "", creation: formatDate(today), lastUpdate: formatDate(today)})
     }
@@ -106,11 +107,11 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
                                 </Field>
                                 <Field>
                                     <Label className="text-zinc-500">Creation Date</Label>
-                                    <input type="date" {...register("creation")} className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
+                                    <Input type="date" {...register("creation")} className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
                                 </Field>
                                 <Field>
                                     <Label className="text-zinc-500">Last Updated</Label>
-                                    <input type="date" {...register("lastUpdate")} className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
+                                    <Input type="date" {...register("lastUpdate")} className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
                                 </Field>
 
                             </FieldGroup>
@@ -136,7 +137,7 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
                     </colgroup>
                     <TableHeader className="bg-neutral-900">
                         <TableRow className="hover:!bg-transparent !border-none">
-                            <TableHead className="text-zinc-500 uppercase tracking-wider px-2 py-2 text-center py-4 font-semibold text-xs">ID</TableHead>
+                            <TableHead className="text-zinc-500 uppercase tracking-wider px-2 py-2 text-center font-semibold text-xs">ID</TableHead>
                             <TableHead className="text-zinc-500 uppercase tracking-wider px-2 py-2 font-semibold text-xs">Title</TableHead>
                             <TableHead className="text-zinc-500 uppercase tracking-wider px-2 py-2 font-semibold text-xs">Description</TableHead>
                             <TableHead className="text-zinc-500 uppercase tracking-wider px-2 py-2 font-semibold text-xs">Actions</TableHead>
@@ -154,19 +155,20 @@ export default function ProjectManger({projects}: {projects: Array<projectTable>
                                             <DropdownMenuTrigger className="cursor-pointer">...</DropdownMenuTrigger>
                                             <DropdownMenuContent className="border border-zinc-500 bg-neutral-950 rounded-none p-0 !min-w-0 w-fit">
                                                 <DropdownMenuGroup className="w-fit">
-                                                    <DropdownMenuItem className="hover:!text-white !rounded-none cursor-pointer text-zinc-400 hover:!bg-transparent w-full" onClick={() => openEdit(project)}>Edit</DropdownMenuItem>
-                                                    <DropdownMenuItem className="hover:!text-red-500 !rounded-none cursor-pointer text-zinc-400 hover:!bg-transparent w-full" onClick={() => {deleteProject(project.id)}}>Delete</DropdownMenuItem>
-                                                </DropdownMenuGroup>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                                                    <DropdownMenuItem className="hover:!text-blue-500 !rounded-none cursor-pointer text-zinc-400 hover:!bg-transparent w-full" onClick={() => router.push(`/admin/projects/${project.id}`)}>Vist</DropdownMenuItem>
+                                                <DropdownMenuItem className="hover:!text-white !rounded-none cursor-pointer text-zinc-400 hover:!bg-transparent w-full" onClick={() => openEdit(project)}>Edit</DropdownMenuItem>
+                                                <DropdownMenuItem className="hover:!text-red-500 !rounded-none cursor-pointer text-zinc-400 hover:!bg-transparent w-full" onClick={() => {deleteProject(project.id)}}>Delete</DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
                                 </TableRow>
-                            )
+                    )
                         }
-                        )
+                    )
                         }
-                    </TableBody>
-                </Table>
-            </div>
+                </TableBody>
+            </Table>
+        </div >
         </>)
 }

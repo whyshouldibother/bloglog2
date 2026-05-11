@@ -3,8 +3,58 @@ import pool from '@/lib/db'
 import {revalidatePath} from "next/cache";
 import {projectTable, projectListType, projectViewType} from '@/types/projects'
 export async function getProjectById(id: number) {
-    const result = await pool.query<projectViewType>(`select p.id, p.title, p.description, coalesce(json_agg(json_build_object('id',l.id, 'title', l.title, 'url',l.url)) filter (where l.id is not null), '[]') as links from projects p left join links l on l.projectid = p.id where p.id = $1 group by p.id`, [id]);
-    return result.rows[0]
+    const result = await pool.query<projectViewType>(`
+        SELECT
+            p.id,
+            p.title,
+            p.description,
+
+            COALESCE(l.links, '[]') AS links,
+            COALESCE(t.completed, '[]') AS "completedTodos",
+            COALESCE(t.pending, '[]') AS "pendingTodos",
+            coalesce(v.versions, '[]') as "versions"
+        FROM projects p
+
+        LEFT JOIN LATERAL (
+            SELECT json_agg(
+                jsonb_build_object(
+                    'id', l.id,
+                    'title', l.title,
+                    'url', l.url
+                )
+            ) AS links
+            FROM links l
+            WHERE l.projectid = p.id
+        ) l ON true
+        left join lateral(
+            select json_agg(jsonb_build_object('id', v.id, 'versionid',array_to_string(v.versionid,'.'), 'creation',v.creation, 'description',v.description, 'notes', coalesce((select json_agg(jsonb_build_object('id', n.id, 'note', n.note, 'versionid', n.versionid)) from versionnotes n where n.versionid=v.id),'[]'::json), 'tags', coalesce((select json_agg(jsonb_build_object('id', tg.id, 'title', t.title,'color', t.color)) from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id), '[]'::json)) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
+        LEFT JOIN LATERAL (
+            SELECT
+                json_agg(
+                    jsonb_build_object(
+                        'id', t.id,
+                        'todo', t.todo,
+                        'status', t.status,
+                        'projectid', t.projectid
+                    )
+                ) FILTER (WHERE t.status = true) AS completed,
+
+                json_agg(
+                    jsonb_build_object(
+                        'id', t.id,
+                        'todo', t.todo,
+                        'status', t.status,
+                        'projectid', t.projectid
+                    )
+                ) FILTER (WHERE t.status = false) AS pending
+
+            FROM todolist t
+            WHERE t.projectid = p.id
+        ) t ON true
+        WHERE p.id = $1
+    `, [id]);
+
+    return result.rows[0];
 }
 export async function getProjectList() {
     const results = await pool.query<projectListType>("select id,title from projects order by \"lastUpdate\"");

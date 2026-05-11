@@ -8,8 +8,8 @@ export default async function RootLayout({children}: Readonly<{children: React.R
     return (
         <SidebarProvider className={`h-screen flex flex-row w-full overflow-hidden`}>
             <AdminSidebar projectList={projectList}/>
-            <SidebarInset className="bg-transparent">
             <SidebarTrigger className="rounded-none"/>
+            <SidebarInset className="bg-transparent">
             <main className="h-screen overflow-y-auto scroll-smooth">
                 {children}
             </main>
