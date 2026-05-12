@@ -38,3 +38,7 @@ export async function deleteNote(noteid: number) {
     await pool.query("delete from versionnotes where id = $1", [noteid]);
     revalidatePath("/admin/projects");
 }
+export async function showNotes(versionid: number, value:boolean){
+    await pool.query("update versions set open = $1 where id = $2", [value, versionid]);
+    revalidatePath("/admin/projects");
+}

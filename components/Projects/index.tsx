@@ -58,7 +58,7 @@ const Projects = async () => {
                                 {project.versions.map((version) => (
                                     <section key={version.versionid} className="group relative mb-2">
                                         <div className="absolute -left-6 top-1 w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-full z-10" />
-                                        <details className="group/details">
+                                        <details className="group/details" open={version.open}>
                                             <summary className="list-none cursor-pointer outline-none">
                                                 <div className="flex flex-col mb-4">
                                                     <div className="flex items-center gap-3">

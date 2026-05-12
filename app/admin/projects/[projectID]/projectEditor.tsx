@@ -11,7 +11,7 @@ import {useState} from 'react'
 import {Label} from '@components/ui/label'
 import {createLink, deleteLink, updateLink} from '@admin/actions/links'
 import {createTodo, updateTodo, flipTodo, deleteTodo} from '@admin/actions/todo'
-import {createVersion, deleteVersion, updateVersion, createNote, deleteNote, updateNote} from '@admin/actions/versions'
+import {createVersion, deleteVersion, updateVersion, createNote, deleteNote, updateNote, showNotes} from '@admin/actions/versions'
 import {Card, CardTitle, CardHeader, CardContent, CardDescription} from '@components/ui/card'
 import {format} from "date-fns"
 import {Popover, PopoverContent, PopoverTrigger} from '@components/ui/popover'
@@ -19,6 +19,7 @@ import {Command, CommandInput, CommandList, CommandGroup, CommandItem, CommandEm
 import {tagsType} from '@/types/tags'
 import {addableTags, tagged, removeTag} from "../../actions/tags"
 import {Badge} from "@components/ui/badge"
+import {Switch} from "@components/ui/switch"
 import {X} from 'lucide-react'
 async function loadTags(versionid: number) {
     const tags = await addableTags(versionid);
@@ -408,6 +409,7 @@ export default function Editor({project}: {project: projectViewType}) {
                                 <CardContent>
                                     <div className="flex flex-row justify-between items-center">
                                         <h4 className="text-zinc-400">Notes</h4>
+                                        <Switch defaultChecked={version.open} className="!h-4 !w-8 !rounded-none border-none data-[state=unchecked]:bg-mist-950 data-[state=unchecked]:[&_span]:bg-zinc-600 data-[state=checked]:bg-zinc-600 data-[state=checked]:[&_span]:bg-mist-950 flex items-center [&_span]:!h-2 [&_span]:!w-3 [&_span]:!rounded-none [&_span]:ml-1 data-[state=checked]:[&_span]:translate-x-3" onCheckedChange={(check)=>showNotes(version.id, check)}/>
                                         <div className="flex flex-row gap-2">
                                             <Button className="text-xs border border-zinc-500  bg-black px-2 py-1 hover:bg-white hover:text-black transition-colors cursor-pointer items-center flex rounded-none" onClick={() => openNewNote(version.id)}>Add Notes</Button>
                                             <Button className="text-xs border border-zinc-500  bg-black px-2 py-1 hover:bg-white hover:text-black transition-colors cursor-pointer items-center flex rounded-none" onClick={() => openEditVersion(version)}>Edit Version</Button>

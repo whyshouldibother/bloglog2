@@ -23,7 +23,7 @@ export async function getProjectView() {
       WHERE l.projectid = p.id
     ) l ON true
   left join lateral(
-            select json_agg(jsonb_build_object('id', v.id, 'versionid', array_to_string(v.versionid, '.'), 'creation', v.creation, 'description',v.description, 'notes', coalesce((select json_agg(json_build_object('id', n.id, 'note', n.note)) from versionnotes n where n.versionid = v.id), '[]'::json), 'tags',coalesce((select json_agg(jsonb_build_object('title', t.title, 'color', t.color) order by t.\"priorityOrder\") from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id ), '[]'::json)) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
+            select json_agg(jsonb_build_object('id', v.id, 'versionid', array_to_string(v.versionid, '.'), 'creation', v.creation, 'description',v.description,'open',v.open, 'notes', coalesce((select json_agg(json_build_object('id', n.id, 'note', n.note)) from versionnotes n where n.versionid = v.id), '[]'::json), 'tags',coalesce((select json_agg(jsonb_build_object('title', t.title, 'color', t.color) order by t.\"priorityOrder\") from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id ), '[]'::json)) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
 
     LEFT JOIN LATERAL (
       SELECT
