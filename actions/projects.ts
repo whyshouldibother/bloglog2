@@ -1,5 +1,9 @@
 import pool from '@/lib/db'
-import {projectViewType} from '@/types/projects';
+import {projectListType, projectViewType} from '@/types/projects';
+export async function getProjectList(){
+    const result = await pool.query<projectListType>(`select p.title from projects p order by p."lastUpdate" desc`)
+    return result.rows
+}
 export async function getProjectView() {
     const result = await pool.query<projectViewType>(`
     SELECT

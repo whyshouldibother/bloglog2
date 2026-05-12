@@ -1,8 +1,9 @@
-import {projects} from '@data/projects'
 import {toId} from '@common/helper'
 import {Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton} from '@components/ui/sidebar'
 import {cn} from '@/lib/utils'
-const AppSidebar = ({className}: {className?: string}) => {
+import {getProjectList} from '@/actions/projects'
+const AppSidebar = async ({className}: {className?: string}) => {
+    const projects = await getProjectList();
     return (
         <>
             <Sidebar className={cn("border-zinc-500 border-r pl-4 pr-2 h-full !bg-black overflow-hidden pt-4 pb-2 [&_[data-sidebar='sidebar']]:!bg-black", className)} >
