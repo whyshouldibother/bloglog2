@@ -33,7 +33,7 @@ function sanitizeSvg(raw: string): string {
 }
 
 function optimizeSvg(sanitized: string): string {
-    const result = optimize(sanitized, {plugins: ["removeComments", "removeMetadata", "removeDoctype", "removeXMLProcInst", "removeTitle", "removeDesc", "mergePaths", "collapseGroups", {name:"convertPathData", params:{floatPrecision:1}}, {name:"cleanupNumericValues", params:{floatPrecision:1}}, {name:"convertTransform", params:{floatPrecision:1}}]});
+    const result = optimize(sanitized, {plugins: ["removeComments", "removeMetadata", "removeDoctype", "removeXMLProcInst", "removeTitle", "removeDesc", "mergePaths", "collapseGroups", {name: "convertPathData", params: {floatPrecision: 2}}, {name: "cleanupNumericValues", params: {floatPrecision: 2}}, {name: "convertTransform", params: {floatPrecision: 2}}]});
     return result.data;
 }
 

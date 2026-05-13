@@ -55,42 +55,47 @@ const Projects = async () => {
                             </div>
                             <div className="flex flex-col-reverse gap-2 border-l border-zinc-800 pl-4 relative">
 
-                                {project.versions.map((version) => {console.log(version); return (
+                                {project.versions.map((version) => {
+                                    return (
 
-                                    <section key={version.versionid} className="group relative mb-2">
-                                        <div className="absolute -left-6 top-1 w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-full z-10" />
-                                        <details className="group/details" open={version.open}>
-                                            <summary className="list-none cursor-pointer outline-none">
-                                                <div className="flex flex-col mb-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <h3 className="text-xl font-bold uppercase tracking-tight text-white">
-                                                            Version: {version.versionid}
-                                                        </h3>
-                                                        {version.tags.map((tag, index) => (
-                                                            <Badge key={index} className="text-[0.625rem] px-2 py-0.5 border border-zinc-800 bg-black !rounded-none" style={{color: tag.color}}>
-                                                                {tag.title}
-                                                            </Badge>
-                                                        ))}
+                                        <section key={version.versionid} className="group relative mb-2">
+                                            <div className="absolute -left-6 top-1 w-4 h-4 bg-black border border-white group-hover:bg-white transition-colors rounded-full z-10" />
+                                            <details className="group/details" open={version.open}>
+                                                <summary className="list-none cursor-pointer outline-none">
+                                                    <div className="flex flex-col mb-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <h3 className="text-xl font-bold uppercase tracking-tight text-white">
+                                                                Version: {version.versionid}
+                                                            </h3>
+                                                            {version.tags.map((tag, index) => (
+                                                                <Badge key={index} className="text-[0.625rem] px-2 py-0.5 border border-zinc-800 bg-black !rounded-none" style={{color: tag.color}}>
+                                                                    {tag.title}
+                                                                </Badge>
+                                                            ))}
+                                                        </div>
+                                                        {
+                                                            version.creation && (
+                                                                <time className="text-[0.625rem] text-zinc-600 uppercase font-thin tracking-widest mt-1">
+                                                                    {format(new Date(version.creation), "do MMMM yyyy")}
+                                                                </time>
+                                                            )
+                                                        }
                                                     </div>
-                                                    {
-                                                        version.creation && (
-                                                            <time className="text-[0.625rem] text-zinc-600 uppercase font-thin tracking-widest mt-1">
-                                                                {format(new Date(version.creation), "do MMMM yyyy")}
-                                                            </time>
-                                                        )
-                                                    }
-                                                </div>
-                                                <p className="text-zinc-400 leading-snug text-sm font-virgil">{version.description}</p>
-                                            </summary>
-                                            {version.circuit && (<img src={`/api/image/svg/${version.circuit.imageid}`} alt={version.circuit.alt}/>)}
-                                            <ul className="list-disc list-inside mt-2 font-virgil">
-                                                {version.notes.map(note => (
-                                                    <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
-                                                ))}
-                                            </ul>
-                                        </details>
-                                    </section>
-                                )})}
+                                                    <p className="text-zinc-400 leading-snug text-sm font-virgil">{version.description}</p>
+                                                </summary>
+                                                {version.circuit && (<img src={`/api/image/svg/${version.circuit.imageid}`} alt={version.circuit.alt} className='w-full h-auto' />)}
+                                                {
+                                                    version.notes.length > 0 &&
+                                                <ul className="list-disc list-inside mt-2 font-virgil">
+                                                    {version.notes.map(note => (
+                                                        <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
+                                                    ))}
+                                                </ul>
+                                                }
+                                            </details>
+                                        </section>
+                                    )
+                                })}
                             </div>
                         </div>
                     </article>
