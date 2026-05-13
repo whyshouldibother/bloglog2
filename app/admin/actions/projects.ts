@@ -27,7 +27,7 @@ export async function getProjectById(id: number) {
             WHERE l.projectid = p.id
         ) l ON true
         left join lateral(
-            select json_agg(jsonb_build_object('id', v.id, 'versionid',array_to_string(v.versionid,'.'), 'creation',v.creation, 'description',v.description, 'open', v.open,'notes', coalesce((select json_agg(jsonb_build_object('id', n.id, 'note', n.note, 'versionid', n.versionid)) from versionnotes n where n.versionid=v.id),'[]'::json), 'tags', coalesce((select json_agg(jsonb_build_object('id', tg.id, 'title', t.title,'color', t.color)) from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id), '[]'::json)) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
+            select json_agg(jsonb_build_object('id', v.id, 'versionid',array_to_string(v.versionid,'.'), 'creation',v.creation, 'description',v.description, 'open', v.open,'notes', coalesce((select json_agg(jsonb_build_object('id', n.id, 'note', n.note, 'versionid', n.versionid)) from versionnotes n where n.versionid=v.id),'[]'::json), 'tags', coalesce((select json_agg(jsonb_build_object('id', tg.id, 'title', t.title,'color', t.color)) from tagged tg left join tags t on t.id = tg.tagid where tg.versionid = v.id), '[]'::json), 'circuit',coalesce((select jsonb_strip_nulls(jsonb_build_object('imageid', c.imageid, 'alt', c.alt)) from circuitimages c where c.versionid = v.id)) ) order by v.versionid) as versions from versions v where v.projectid = p.id) v on true
         LEFT JOIN LATERAL (
             SELECT
                 json_agg(

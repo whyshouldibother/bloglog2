@@ -21,6 +21,7 @@ import {addableTags, tagged, removeTag} from "../../actions/tags"
 import {Badge} from "@components/ui/badge"
 import {Switch} from "@components/ui/switch"
 import {X} from 'lucide-react'
+import {uploadCircuit} from '@admin/actions/images'
 async function loadTags(versionid: number) {
     const tags = await addableTags(versionid);
     return tags
@@ -333,6 +334,17 @@ export default function Editor({project}: {project: projectViewType}) {
                                     <Label className="text-zinc-600">Creation Date</Label>
                                     <Input {...registerVersion("creation")} type="date" className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
                                 </Field>
+                                {editingVersion &&
+                                    <Field>
+                                        <Label className="text-zinc-600">Circuit Diagram</Label>
+                                        <Input type="file" onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) uploadCircuit({file: file, altText: `Circuit:${editingVersion.id}`}, editingVersion.id);
+                                        }
+                                        } className="rounded-none outline-none text-white bg-transparent border-zinc-600 focus:border-white placeholder:text-zinc-600 focus-visible:ring-0" />
+                                        {editingVersion.circuit && <img src={`/api/image/svg/${editingVersion.circuit.imageid}`} alt={editingVersion.circuit.alt}/>}
+                                    </Field>
+                                }
                             </FieldGroup>
 
                             <DialogFooter>
@@ -409,7 +421,7 @@ export default function Editor({project}: {project: projectViewType}) {
                                 <CardContent>
                                     <div className="flex flex-row justify-between items-center">
                                         <h4 className="text-zinc-400">Notes</h4>
-                                        <Switch defaultChecked={version.open} className="!h-4 !w-8 !rounded-none border-none data-[state=unchecked]:bg-mist-950 data-[state=unchecked]:[&_span]:bg-zinc-600 data-[state=checked]:bg-zinc-600 data-[state=checked]:[&_span]:bg-mist-950 flex items-center [&_span]:!h-2 [&_span]:!w-3 [&_span]:!rounded-none [&_span]:ml-1 data-[state=checked]:[&_span]:translate-x-3" onCheckedChange={(check)=>showNotes(version.id, check)}/>
+                                        <Switch defaultChecked={version.open} className="!h-4 !w-8 !rounded-none border-none data-[state=unchecked]:bg-mist-950 data-[state=unchecked]:[&_span]:bg-zinc-600 data-[state=checked]:bg-zinc-600 data-[state=checked]:[&_span]:bg-mist-950 flex items-center [&_span]:!h-2 [&_span]:!w-3 [&_span]:!rounded-none [&_span]:ml-1 data-[state=checked]:[&_span]:translate-x-3" onCheckedChange={(check) => showNotes(version.id, check)} />
                                         <div className="flex flex-row gap-2">
                                             <Button className="text-xs border border-zinc-500  bg-black px-2 py-1 hover:bg-white hover:text-black transition-colors cursor-pointer items-center flex rounded-none" onClick={() => openNewNote(version.id)}>Add Notes</Button>
                                             <Button className="text-xs border border-zinc-500  bg-black px-2 py-1 hover:bg-white hover:text-black transition-colors cursor-pointer items-center flex rounded-none" onClick={() => openEditVersion(version)}>Edit Version</Button>

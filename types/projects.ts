@@ -10,7 +10,7 @@ export type projectTable = {
     creation?: string,
     lastUpdate?: string,
 }
-export interface projectVersionQuery {id: number, versionid: string, description?: string, projectid: number, creation?: string, notes: Array<projectNoteQuery>, tags: Array<tagsType>, open:boolean}
+export interface projectVersionQuery {id: number, versionid: string, description?: string, projectid: number, creation?: string, notes: Array<projectNoteQuery>, tags: Array<tagsType>, open:boolean, circuit?:{imageid: number, alt:string}}
 export interface projectNoteQuery {id: number, note: string, versionid: number}
 export interface projectTodoQuery {id: number, todo: string, status: boolean, projectID: number}
 export interface projectQuery {id: number, title: string, description?: string};

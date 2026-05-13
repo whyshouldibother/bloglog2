@@ -81,6 +81,7 @@ const Projects = async () => {
                                                 </div>
                                                 <p className="text-zinc-400 leading-snug text-sm font-virgil">{version.description}</p>
                                             </summary>
+                                            {version.circuit && (<img src={`/api/image/svg/${version.circuit.imageid}`} alt={version.circuit.alt}/>)}
                                             <ul className="list-disc list-inside mt-2 font-virgil">
                                                 {version.notes.map(note => (
                                                     <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
