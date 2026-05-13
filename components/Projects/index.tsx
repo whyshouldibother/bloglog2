@@ -4,6 +4,7 @@ import {Card, CardTitle, CardHeader, CardContent} from '@components/ui/card'
 import {Badge} from '@components/ui/badge'
 import {format} from "date-fns"
 import {toId} from '@common/helper'
+export const dynamic="force-dynamic"
 const Projects = async () => {
     const projects = await getProjectView();
     return (
