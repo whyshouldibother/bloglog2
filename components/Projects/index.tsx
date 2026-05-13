@@ -83,14 +83,22 @@ const Projects = async () => {
                                                     </div>
                                                     <p className="text-zinc-400 leading-snug text-sm font-virgil">{version.description}</p>
                                                 </summary>
-                                                {version.circuit && (<img src={`/api/image/svg/${version.circuit.imageid}`} alt={version.circuit.alt} className='w-full h-auto' />)}
+                                                {version.circuit && (<figure className="border border-zinc-800 max-w-sm flex flex-col items-center gap-0 mt-2">
+                                                    <img src={`/api/image/svg/${version.circuit.imageid}`} alt={version.circuit.alt} className='w-full max-w-xs h-auto block' />
+                                                    <figcaption>
+                                                    <p className="text-sm font-mono tracking-tighter text-zinc-600">
+                                                    {`Circuit Diagam:${version.versionid}`}
+                                                    </p>
+                                                    </figcaption>
+                                                </figure>
+                                                )}
                                                 {
                                                     version.notes.length > 0 &&
-                                                <ul className="list-disc list-inside mt-2 font-virgil">
-                                                    {version.notes.map(note => (
-                                                        <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
-                                                    ))}
-                                                </ul>
+                                                    <ul className="list-disc list-inside mt-2 font-virgil">
+                                                        {version.notes.map(note => (
+                                                            <li key={note.id} className="text-xs text-zinc-600">{note.note}</li>
+                                                        ))}
+                                                    </ul>
                                                 }
                                             </details>
                                         </section>
