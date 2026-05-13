@@ -4,7 +4,9 @@ export async function getProjectList(){
     const result = await pool.query<projectListType>(`select p.title from projects p order by p."lastUpdate" desc`)
     return result.rows
 }
+import { unstable_noStore as noStore } from 'next/cache';
 export async function getProjectView() {
+    noStore(); 
     const result = await pool.query<projectViewType>(`
     SELECT
       p.id,
